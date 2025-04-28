@@ -71,7 +71,7 @@ export class PieChart
           .replace(/"/g, "") // Remove double quotes
           .split(",")
           .map((color) => color.trim())
-      : [];
+      : ["#fc0303"]; // Default color if no valid input is provided
 
     const props = { data, colors };
     return React.createElement(PieChartWrapper, props);
