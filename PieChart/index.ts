@@ -59,6 +59,7 @@ export class PieChart
       }
     }
 
+    //Cleanup color string array input
     const colors: string[] = context.parameters.colorsString.raw
       ? context.parameters.colorsString.raw
           .replace(/[[\]']+/g, "") // Remove brackets and single quotes
