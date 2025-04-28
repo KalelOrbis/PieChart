@@ -1,5 +1,7 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
+import { IData } from "./types";
+import { PieChartWrapper } from "./PieChartWrapper";
 
 export class PieChart
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
@@ -35,7 +37,39 @@ export class PieChart
    */
   public updateView(
     context: ComponentFramework.Context<IInputs>
-  ): React.ReactElement {}
+  ): React.ReactElement {
+    const defaultData: IData[] = [{ title: "Invalid Data", value: 100 }];
+
+    let data: IData[] = defaultData;
+    if (context.parameters.dataJsonString.raw) {
+      try {
+        //@typescript-eslint/no-unsafe-assignment
+        const parsed = JSON.parse(context.parameters.dataJsonString.raw);
+        if (
+          Array.isArray(parsed) &&
+          parsed.every(
+            (item) =>
+              typeof item === "object" && "title" in item && "value" in item
+          )
+        ) {
+          data = parsed as IData[];
+        }
+      } catch {
+        data = defaultData;
+      }
+    }
+
+    const colors: string[] = context.parameters.colorsString.raw
+      ? context.parameters.colorsString.raw
+          .replace(/[[\]']+/g, "") // Remove brackets and single quotes
+          .replace(/"/g, "") // Remove double quotes
+          .split(",")
+          .map((color) => color.trim())
+      : [];
+
+    const props = { data, colors };
+    return React.createElement(PieChartWrapper, props);
+  }
 
   /**
    * It is called by the framework prior to a control receiving new data.
