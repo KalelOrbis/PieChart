@@ -12,8 +12,26 @@ export const PieChartWrapper = ({
   }));
 
   return (
-    <div
-      style={{ display: "flex", justifyContent: "center", gap: "20px" }}
-    ></div>
+    <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+      <PieChart
+        style={{ width: "40%" }}
+        animate={true}
+        animationDuration={500}
+        labelPosition={50}
+        data={data}
+        totalValue={25}
+      />
+      <div
+        style={{ display: "flex", flexDirection: "column", marginLeft: "20px" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "20px",
+          }}
+        ></div>
+      </div>
+    </div>
   );
 };
