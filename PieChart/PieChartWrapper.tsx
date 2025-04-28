@@ -19,18 +19,41 @@ export const PieChartWrapper = ({
         animationDuration={500}
         labelPosition={50}
         data={data}
-        totalValue={25}
       />
+
       <div
-        style={{ display: "flex", flexDirection: "column", marginLeft: "20px" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginLeft: "20px",
+          justifyContent: "center",
+          alignItems: "start",
+        }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginLeft: "20px",
-          }}
-        ></div>
+        {data.map((item, index) => (
+          <div
+            key={`${item.title.replace(" ", "").toLowerCase()}=${index}`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "8px",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "1rem",
+                height: "1rem",
+                borderRadius: "50%",
+                border: `3px solid ${item.color}`,
+                marginRight: "0.5rem",
+              }}
+            ></div>
+            <span style={{ color: "#78909C", fontSize: "1.5rem" }}>
+              {item.value} {item.title}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
