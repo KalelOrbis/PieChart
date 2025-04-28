@@ -43,14 +43,19 @@ export class PieChart
     let data: IData[] = defaultData;
     if (context.parameters.dataJsonString.raw) {
       try {
-        //@typescript-eslint/no-unsafe-assignment
-        const parsed = JSON.parse(context.parameters.dataJsonString.raw);
+        const parsed = JSON.parse(
+          context.parameters.dataJsonString.raw
+        ) as unknown;
+
         if (
           Array.isArray(parsed) &&
-          parsed.every(
-            (item) =>
-              typeof item === "object" && "title" in item && "value" in item
-          )
+          parsed.every((item: unknown) => {
+            if (typeof item !== "object" || item === null) {
+              return false;
+            }
+            const obj = item as { title?: string; value?: number };
+            return "title" in obj && "value" in obj;
+          })
         ) {
           data = parsed as IData[];
         }
